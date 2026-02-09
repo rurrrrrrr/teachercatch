@@ -43,6 +43,7 @@ function setup() {
     // 音声を読み込む
     catchSound = createAudio("audio/クイズ不正解1.mp3");
     bgmAudio = createAudio("audio/迫る熱きバトル的なBGM.mp3");
+    bgmAudio.volume(0.2);
     bgmAudio.loop();
 }
 
