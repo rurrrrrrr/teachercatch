@@ -12,12 +12,16 @@ let basketY;
 let appleImage;
 let appleX;
 let appleY;
+let appleVelocityY;
+
+let catchSound;
+
+let gravity = 0.1; // 重力加速度
 
 function preload() {
     // 画像を読み込む (02)
     basketImage = loadImage("image/basket.png");
     appleImage = loadImage("image/apple.png");
-
 }
 
 function setup() {
@@ -29,11 +33,14 @@ function setup() {
     basketY=height - 30;
     appleX = [200];
     appleY = [0];
+    appleVelocityY = [0];
     appleIsCatched = [false];
     basetime = 0;
     score = 0;
     gameTime = 0;
     
+    // 音声を読み込む
+    catchSound = createAudio("audio/クイズ不正解1.mp3");
 }
 
 function draw() {
@@ -52,23 +59,31 @@ function draw() {
     if (mode == 1) {
         // かごを動かす (04)
         if (keyIsDown(LEFT_ARROW)){
-            basketX -=5;
+            basketX -= 7;
         }
         if (keyIsDown(RIGHT_ARROW)){
-            basketX += 100;
+            basketX += 7;
+        }
+        if (keyIsDown(UP_ARROW)){
+            basketY -= 7;
+        }
+        if (keyIsDown(DOWN_ARROW)){
+            basketY += 7;
         }
         
         // 一定時間おきにりんごを増やす (06)
-        if (millis() - basetime > 1000){
+        if (millis() - basetime > 500){
             basetime = millis();
             appleX.push(random(0,width));
             appleY.push(0);
+            appleVelocityY.push(0);
             appleIsCatched.push(false);
         }
         
         // りんごを落とす (05)
         for(let i=0; i < appleY.length; i++){
-            appleY[i] +=3;
+            appleVelocityY[i] += gravity; // 重力を速度に加える
+            appleY[i] += appleVelocityY[i]; // 速度をポジションに加える
         }
         
         // かごとりんごが重なったら (07)
@@ -82,6 +97,8 @@ function draw() {
             ){
                 score++;
                 appleIsCatched[i] = true;
+                catchSound.stop();
+                catchSound.play();
             }
         }
         
@@ -119,8 +136,8 @@ function draw() {
         text("TIME:" + gameTime,width-80,20);
 
         textAlign(CENTER);
-        text("FINISH",width/2,height/2);
-        text("おつかれさまんざ",width/2,height/2+30);
+        text("おつかれさまんざ",width/2,height/2);
+        text("クリックしてスカート",width/2,height/2+30);
 
         if(mouseIsPressed){
             setup();
