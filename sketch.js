@@ -15,6 +15,7 @@ let appleY;
 let appleVelocityY;
 
 let catchSound;
+let bgmAudio;
 
 let gravity = 0.1; // 重力加速度
 
@@ -41,6 +42,8 @@ function setup() {
     
     // 音声を読み込む
     catchSound = createAudio("audio/クイズ不正解1.mp3");
+    bgmAudio = createAudio("audio/迫る熱きバトル的なBGM.mp3");
+    bgmAudio.loop();
 }
 
 function draw() {
@@ -53,6 +56,7 @@ function draw() {
         text("クリックしてスタート",width/2,height/2);
         if(mouseIsPressed){
             mode=1;
+            bgmAudio.play();
         }
     }
 
@@ -125,6 +129,7 @@ function draw() {
         // 時間切れでゲームを終了する (09)
         if(gameTime >=20){
             mode = 2;
+            bgmAudio.stop();
         }
 
     }
