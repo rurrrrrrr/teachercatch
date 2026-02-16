@@ -23,7 +23,7 @@ let gravity = 0.1; // 重力加速度
 function preload() {
     // 画像を読み込む (02)
     basketImage = loadImage("image/basket.png");
-    appleImage = loadImage("image/apple.png");
+    appleImage = loadImage("image/ma-meido.JPG");
 }
 
 function setup() {
