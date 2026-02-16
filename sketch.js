@@ -16,6 +16,7 @@ let appleVelocityY;
 
 let catchSound;
 let bgmAudio;
+let endSound;
 
 let gravity = 0.1; // 重力加速度
 
@@ -41,8 +42,13 @@ function setup() {
     gameTime = 0;
     
     // 音声を読み込む
+    if (catchSound) catchSound.stop();
+    if (bgmAudio) bgmAudio.stop();
+    if (endSound) endSound.stop();
+
     catchSound = createAudio("audio/クイズ不正解1.mp3");
     bgmAudio = createAudio("audio/迫る熱きバトル的なBGM.mp3");
+    endSound = createAudio("audio/ちゃんちゃん3.mp3");
     bgmAudio.volume(0.2);
     bgmAudio.loop();
 }
@@ -77,7 +83,7 @@ function draw() {
         }
         
         // 一定時間おきにりんごを増やす (06)
-        if (millis() - basetime > 500){
+        if (millis() - basetime > 100){
             basetime = millis();
             appleX.push(random(0,width));
             appleY.push(0);
@@ -131,6 +137,10 @@ function draw() {
         if(gameTime >=20){
             mode = 2;
             bgmAudio.stop();
+            if (endSound) {
+                endSound.stop();
+                endSound.play();
+            }
         }
 
     }
